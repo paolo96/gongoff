@@ -58,7 +58,7 @@ func TestCommandMessage(t *testing.T) {
 func TestCommandPayment(t *testing.T) {
 	testDesc := "test"
 	testAmount := 100
-	commandPayment, err := NewCommandPayment(terminatorTypePaymentCards, &testAmount, &testDesc)
+	commandPayment, err := NewCommandPayment(TerminatorTypePaymentCards, &testAmount, &testDesc)
 	if err != nil {
 		t.Errorf("Expected error = nil, got %s", err)
 	}
@@ -70,7 +70,7 @@ func TestCommandPayment(t *testing.T) {
 		t.Errorf("Expected 100H\"test\"3T, got %s", command)
 	}
 
-	_, err = NewCommandPayment(terminatorTypeSold, nil, nil)
+	_, err = NewCommandPayment(TerminatorTypeSold, nil, nil)
 	if err == nil {
 		t.Errorf("Expected error != nil, got nil")
 	}

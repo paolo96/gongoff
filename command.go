@@ -7,15 +7,15 @@ import (
 )
 
 // Command anatomy:
-// data(variable, separator), data(variable, separator), ..., terminator(*variable, terminatorType)
+// Data(variable, separator), Data(variable, separator), ..., Terminator(*variable, terminatorType)
 
 type Command interface {
 	get() (string, error)
 }
 
 type CommandGeneric struct {
-	data       []data
-	terminator terminator
+	data       []Data
+	terminator Terminator
 }
 
 func (c *CommandGeneric) get() (string, error) {
@@ -53,25 +53,25 @@ func NewCommandProduct(product *string, unitPrice int, quantity *int, department
 		quantity:   quantity,
 		department: department,
 	}
-	commandProduct.data = []data{}
+	commandProduct.data = []Data{}
 
 	if product != nil {
-		commandProduct.data = append(commandProduct.data, data{variable: *product, separator: separatorTypeDescription})
+		commandProduct.data = append(commandProduct.data, Data{variable: *product, separator: SeparatorTypeDescription})
 	}
 
 	if quantity != nil {
-		commandProduct.data = append(commandProduct.data, data{variable: strconv.Itoa(*quantity), separator: separatorTypeMultiply})
+		commandProduct.data = append(commandProduct.data, Data{variable: strconv.Itoa(*quantity), separator: SeparatorTypeMultiply})
 	}
 
 	if unitPrice != 0 {
-		commandProduct.data = append(commandProduct.data, data{variable: strconv.Itoa(unitPrice), separator: separatorTypeValue})
+		commandProduct.data = append(commandProduct.data, Data{variable: strconv.Itoa(unitPrice), separator: SeparatorTypeValue})
 	}
 
 	if department != nil {
 		departmentString := strconv.Itoa(*department)
-		commandProduct.terminator = terminator{variable: &departmentString, terminatorType: terminatorTypeSold}
+		commandProduct.terminator = Terminator{variable: &departmentString, terminatorType: TerminatorTypeSold}
 	} else {
-		commandProduct.terminator = terminator{variable: nil, terminatorType: terminatorTypeSold}
+		commandProduct.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeSold}
 	}
 
 	return commandProduct
@@ -88,7 +88,7 @@ func NewCommandMessage(trailer string) *CommandTrailer {
 	commandTrailer := &CommandTrailer{
 		trailer: trailer,
 	}
-	commandTrailer.data = []data{}
+	commandTrailer.data = []Data{}
 
 	paddedTrailer := trailer
 	if len(trailer) < 39 {
@@ -96,36 +96,36 @@ func NewCommandMessage(trailer string) *CommandTrailer {
 	} else if len(trailer) > 46 {
 		paddedTrailer = trailer[:46]
 	}
-	commandTrailer.data = append(commandTrailer.data, data{variable: paddedTrailer, separator: separatorTypeDescription})
-	commandTrailer.terminator = terminator{variable: nil, terminatorType: terminatorTypePrintCourtesyMessage}
+	commandTrailer.data = append(commandTrailer.data, Data{variable: paddedTrailer, separator: SeparatorTypeDescription})
+	commandTrailer.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintCourtesyMessage}
 	return commandTrailer
 }
 
 type CommandPayment struct {
 	CommandGeneric
-	paymentMethod terminatorType
+	paymentMethod TerminatorType
 }
 
 // NewCommandPayment prints a payment with the given parameters.
 // Ex. (terminatorTypePaymentCards, 750) -> 750H3T -> Paid 750€ with cards.
 // If no amount is given, the receipt is considered to be paid entirely with the given payment method.
 // If the amount is given, change is applied accordingly.
-func NewCommandPayment(paymentMethod terminatorType, amount *int, paymentMethodDescription *string) (*CommandPayment, error) {
+func NewCommandPayment(paymentMethod TerminatorType, amount *int, paymentMethodDescription *string) (*CommandPayment, error) {
 	if !strings.HasSuffix(string(paymentMethod), "T") {
-		return nil, errors.New("payment method terminator must end with 'T'")
+		return nil, errors.New("payment method Terminator must end with 'T'")
 	}
 	commandPayment := &CommandPayment{
 		paymentMethod: paymentMethod,
 	}
-	commandPayment.data = []data{}
+	commandPayment.data = []Data{}
 
 	if amount != nil {
-		commandPayment.data = append(commandPayment.data, data{variable: strconv.Itoa(*amount), separator: separatorTypeValue})
+		commandPayment.data = append(commandPayment.data, Data{variable: strconv.Itoa(*amount), separator: SeparatorTypeValue})
 	}
 	if paymentMethodDescription != nil {
-		commandPayment.data = append(commandPayment.data, data{variable: *paymentMethodDescription, separator: separatorTypeDescription})
+		commandPayment.data = append(commandPayment.data, Data{variable: *paymentMethodDescription, separator: SeparatorTypeDescription})
 	}
 
-	commandPayment.terminator = terminator{variable: nil, terminatorType: paymentMethod}
+	commandPayment.terminator = Terminator{variable: nil, terminatorType: paymentMethod}
 	return commandPayment, nil
 }
