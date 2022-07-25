@@ -82,8 +82,9 @@ type CommandTrailer struct {
 	trailer string
 }
 
-// NewCommandMessage prints a line with the given message, forcing the width between 39 and 46 characters.
+// NewCommandMessage prints a line with the given message.
 // Ex. ("TRAILER") -> "TRAILER"@40F -> "TRAILER                                "
+// Width forced between 39 and 46 characters.
 func NewCommandMessage(trailer string) *CommandTrailer {
 	commandTrailer := &CommandTrailer{
 		trailer: trailer,
@@ -128,4 +129,28 @@ func NewCommandPayment(paymentMethod TerminatorType, amount *int, paymentMethodD
 
 	commandPayment.terminator = Terminator{variable: nil, terminatorType: paymentMethod}
 	return commandPayment, nil
+}
+
+type CommandCustomerIdentifier struct {
+	CommandGeneric
+	customerIdentifier string
+}
+
+// NewCommandCustomerIdentifier prints a customer identifier (CF, VAT, LotteryTicket)
+// Ex. ("CF", "RSSMRA00A01F205F") -> "RSSMRA00A01F205F"@39F -> CF is "RSSMRA00A01F205F"
+// CF (codice fiscale) is a 16-character string.
+// VAT (vat number) is a 11-character string (without country prefix).
+// LotteryTicket (lottery ticket) is a 8-character string.
+func NewCommandCustomerIdentifier(customerIdentifier string) (*CommandCustomerIdentifier, error) {
+	if len(customerIdentifier) != 16 && len(customerIdentifier) != 11 && len(customerIdentifier) != 8 {
+		return nil, errors.New("customer identifier must be 16, 11 or 8 characters long")
+	}
+
+	commandCustomerIdentifier := &CommandCustomerIdentifier{
+		customerIdentifier: customerIdentifier,
+	}
+	commandCustomerIdentifier.data = []Data{}
+	commandCustomerIdentifier.data = append(commandCustomerIdentifier.data, Data{variable: customerIdentifier, separator: SeparatorTypeDescription})
+	commandCustomerIdentifier.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintCustomerIdentifier}
+	return commandCustomerIdentifier, nil
 }

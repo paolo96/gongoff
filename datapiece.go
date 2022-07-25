@@ -105,7 +105,7 @@ const (
 	TerminatorTypeAdditionalDescription                  TerminatorType = "@"
 	TerminatorTypeLotteryCode                            TerminatorType = "@37F" //Unused
 	TerminatorTypeInvoiceCustomerDetails                 TerminatorType = "@38F"
-	TerminatorTypePrintVATorIDorLotteryCode              TerminatorType = "@39F"
+	TerminatorTypePrintCustomerIdentifier                TerminatorType = "@39F"
 	TerminatorTypePrintCourtesyMessage                   TerminatorType = "@40F"
 	TerminatorTypePrintTrailerAfterLogo                  TerminatorType = "@41F"
 	TerminatorTypePrintBarcodeEAN13                      TerminatorType = "1Z"

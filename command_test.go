@@ -77,3 +77,24 @@ func TestCommandPayment(t *testing.T) {
 
 	fmt.Println("Completed testCommandPayment")
 }
+
+func TestNewCommandCustomerIdentifier(t *testing.T) {
+	commandCustomerIdentifier, err := NewCommandCustomerIdentifier("RSSMRA00A01F205F")
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	command, err := commandCustomerIdentifier.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "\"RSSMRA00A01F205F\"@39F" {
+		t.Errorf("Expected \"RSSMRA00A01F205F\"@39F, got %s", command)
+	}
+
+	_, err = NewCommandCustomerIdentifier("test")
+	if err == nil {
+		t.Errorf("Expected error != nil, got nil")
+	}
+
+	fmt.Println("Completed testNewCommandCustomerIdentifier")
+}
