@@ -1,6 +1,7 @@
 package gongoff
 
 import (
+	"errors"
 	"strconv"
 	"strings"
 )
@@ -98,4 +99,33 @@ func NewCommandMessage(trailer string) *CommandTrailer {
 	commandTrailer.data = append(commandTrailer.data, data{variable: paddedTrailer, separator: separatorTypeDescription})
 	commandTrailer.terminator = terminator{variable: nil, terminatorType: terminatorTypePrintCourtesyMessage}
 	return commandTrailer
+}
+
+type CommandPayment struct {
+	CommandGeneric
+	paymentMethod terminatorType
+}
+
+// NewCommandPayment prints a payment with the given parameters.
+// Ex. (terminatorTypePaymentCards, 750) -> 750H3T -> Paid 750€ with cards.
+// If no amount is given, the receipt is considered to be paid entirely with the given payment method.
+// If the amount is given, change is applied accordingly.
+func NewCommandPayment(paymentMethod terminatorType, amount *int, paymentMethodDescription *string) (*CommandPayment, error) {
+	if !strings.HasSuffix(string(paymentMethod), "T") {
+		return nil, errors.New("payment method terminator must end with 'T'")
+	}
+	commandPayment := &CommandPayment{
+		paymentMethod: paymentMethod,
+	}
+	commandPayment.data = []data{}
+
+	if amount != nil {
+		commandPayment.data = append(commandPayment.data, data{variable: strconv.Itoa(*amount), separator: separatorTypeValue})
+	}
+	if paymentMethodDescription != nil {
+		commandPayment.data = append(commandPayment.data, data{variable: *paymentMethodDescription, separator: separatorTypeDescription})
+	}
+
+	commandPayment.terminator = terminator{variable: nil, terminatorType: paymentMethod}
+	return commandPayment, nil
 }

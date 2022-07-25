@@ -53,3 +53,27 @@ func TestCommandMessage(t *testing.T) {
 
 	fmt.Println("Completed testCommandMessage")
 }
+
+// TestCommandPayment tests the creation of a CommandPayment command.
+func TestCommandPayment(t *testing.T) {
+	testDesc := "test"
+	testAmount := 100
+	commandPayment, err := NewCommandPayment(terminatorTypePaymentCards, &testAmount, &testDesc)
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	command, err := commandPayment.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "100H\"test\"3T" {
+		t.Errorf("Expected 100H\"test\"3T, got %s", command)
+	}
+
+	_, err = NewCommandPayment(terminatorTypeSold, nil, nil)
+	if err == nil {
+		t.Errorf("Expected error != nil, got nil")
+	}
+
+	fmt.Println("Completed testCommandPayment")
+}
