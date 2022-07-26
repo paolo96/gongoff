@@ -45,7 +45,7 @@ type CommandProduct struct {
 
 // NewCommandProduct prints a product with the given parameters.
 // Ex. ("BREAD", 750, 2, 3) -> "BREAD"2*750H3R -> Sold 2 loaves of bread for 7,50€ each in department 3.
-func NewCommandProduct(product *string, unitPrice int, quantity *int, department *int) *CommandProduct {
+func NewCommandProduct(unitPrice int, product *string, quantity *int, department *int) *CommandProduct {
 
 	if product != nil && len(*product) > 38 {
 		productDesc := (*product)[:38]

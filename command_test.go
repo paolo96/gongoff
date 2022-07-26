@@ -10,7 +10,7 @@ func TestCommandProduct(t *testing.T) {
 	productName := "BREAD"
 	quantity := 2
 	department := 3
-	commandProduct := NewCommandProduct(&productName, 750, &quantity, &department)
+	commandProduct := NewCommandProduct(750, &productName, &quantity, &department)
 	command, err := commandProduct.get()
 	if err != nil {
 		panic(err)
@@ -19,7 +19,7 @@ func TestCommandProduct(t *testing.T) {
 		t.Errorf("Expected \"BREAD\"2*750H3R, got %s", command)
 	}
 
-	commandProductDefaults := NewCommandProduct(nil, 750, nil, nil)
+	commandProductDefaults := NewCommandProduct(750, nil, nil, nil)
 	commandDefaults, err := commandProductDefaults.get()
 	if err != nil {
 		panic(err)
