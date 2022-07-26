@@ -79,7 +79,7 @@ func TestDocumentCommercialCancellation(t *testing.T) {
 
 	documentId := NewDocumentId(1, 2, time.Now(), nil)
 	commandOpenDocumentCommercialCancellation := NewCommandOpenDocumentCommercialCancellation(*documentId)
-	documentCommercialCancellation := NewDocumentCommercialCancellation(*commandOpenDocumentCommercialCancellation)
+	documentCommercialCancellation := NewDocumentCommercialCancellation(*commandOpenDocumentCommercialCancellation, nil, nil)
 	commands := documentCommercialCancellation.get()
 	if len(commands) != 1 {
 		t.Errorf("Expected 1 commands, got %d", len(commands))

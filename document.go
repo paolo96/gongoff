@@ -152,12 +152,23 @@ type DocumentCommercialCancellation struct {
 	DocumentGeneric
 }
 
-func NewDocumentCommercialCancellation(cancellation CommandOpenDocumentCommercialCancellation) *DocumentCommercialCancellation {
+func NewDocumentCommercialCancellation(
+	commandOpen CommandOpenDocumentCommercialCancellation,
+	commandProduct *CommandProduct,
+	commandPayment *CommandPayment) *DocumentCommercialCancellation {
+
+	commands := []Command{
+		&commandOpen,
+	}
+	if commandProduct != nil {
+		commands = append(commands, commandProduct)
+	}
+	if commandPayment != nil {
+		commands = append(commands, commandPayment)
+	}
 	return &DocumentCommercialCancellation{
 		DocumentGeneric: DocumentGeneric{
-			commands: []Command{
-				&cancellation,
-			},
+			commands: commands,
 		},
 	}
 }

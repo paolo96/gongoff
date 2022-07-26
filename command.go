@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Command anatomy:
@@ -259,4 +260,36 @@ func NewCommandOpenDocumentCommercialCancellation(id DocumentId) *CommandOpenDoc
 	}
 	commandOpenDocumentCommercialCancellation.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenCancellationDocumentCommercial}
 	return commandOpenDocumentCommercialCancellation
+}
+
+type CommandOpenDocumentPOSReturn struct {
+	CommandGeneric
+	date time.Time
+}
+
+func NewCommandOpenDocumentPOSReturn(date time.Time) *CommandOpenDocumentPOSReturn {
+	commandOpenDocumentPOSReturn := &CommandOpenDocumentPOSReturn{
+		date: date,
+	}
+	commandOpenDocumentPOSReturn.data = []Data{
+		{variable: date.Format("01-02-06") + "/POS", separator: SeparatorTypeDescription},
+	}
+	commandOpenDocumentPOSReturn.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenReturnDocumentPOS}
+	return commandOpenDocumentPOSReturn
+}
+
+type CommandOpenDocumentPOSCancellation struct {
+	CommandGeneric
+	date time.Time
+}
+
+func NewCommandOpenDocumentPOSCancellation(date time.Time) *CommandOpenDocumentPOSCancellation {
+	commandOpenDocumentPOSCancellation := &CommandOpenDocumentPOSCancellation{
+		date: date,
+	}
+	commandOpenDocumentPOSCancellation.data = []Data{
+		{variable: date.Format("01-02-06") + "/POS", separator: SeparatorTypeDescription},
+	}
+	commandOpenDocumentPOSCancellation.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenCancellationDocumentPOS}
+	return commandOpenDocumentPOSCancellation
 }
