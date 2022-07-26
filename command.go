@@ -233,6 +233,8 @@ type CommandOpenDocumentCommercialReturn struct {
 	printerSerialNumber *string
 }
 
+// NewCommandOpenDocumentCommercialReturn opens a commercial return document.
+// Ex. (1, 2, date[01/01/2000], "1234567890123") -> "0001-0002-01-01-00-1234567890123"104M -> Open document 0001-0002-01-01-00 done with printer 1234567890123 for return.
 func NewCommandOpenDocumentCommercialReturn(
 	dailyClosureNumber int,
 	documentNumber int,
