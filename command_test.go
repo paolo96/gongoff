@@ -149,7 +149,8 @@ func TestCommandBarcode(t *testing.T) {
 
 func TestCommandOpenDocumentCommercialReturn(t *testing.T) {
 	testDate := time.Date(2018, time.January, 1, 0, 0, 0, 0, time.UTC)
-	commandOpenDocumentCommercialReturn := NewCommandOpenDocumentCommercialReturn(12, 23, testDate, nil)
+	documentId := NewDocumentId(12, 23, testDate, nil)
+	commandOpenDocumentCommercialReturn := NewCommandOpenDocumentCommercialReturn(*documentId)
 	command, err := commandOpenDocumentCommercialReturn.get()
 	if err != nil {
 		t.Errorf("Expected error = nil, got %s", err)

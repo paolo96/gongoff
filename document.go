@@ -1,5 +1,10 @@
 package gongoff
 
+import (
+	"fmt"
+	"time"
+)
+
 type Document interface {
 	get() []Command
 }
@@ -10,6 +15,31 @@ type DocumentGeneric struct {
 
 func (d *DocumentGeneric) get() []Command {
 	return d.commands
+}
+
+type DocumentId string
+
+func NewDocumentId(dailyClosureNumber int, documentNumber int, documentDate time.Time, printerSerialNumber *string) *DocumentId {
+
+	dailyClosureNumberString := "9999"
+	if dailyClosureNumber > 0 && dailyClosureNumber < 10000 {
+		dailyClosureNumberString = fmt.Sprintf("%04d", dailyClosureNumber)
+	}
+	documentNumberString := "9999"
+	if documentNumber > 0 && documentNumber < 10000 {
+		documentNumberString = fmt.Sprintf("%04d", documentNumber)
+	}
+	documentDateString := "30-01-20"
+	if documentDate.Year() > 0 {
+		documentDateString = documentDate.Format("02-01-06")
+	}
+	printerSerialNumberString := ""
+	if printerSerialNumber != nil {
+		printerSerialNumberString = "-" + *printerSerialNumber
+	}
+	id := DocumentId(dailyClosureNumberString + "-" + documentNumberString + "-" + documentDateString + printerSerialNumberString)
+	return &id
+
 }
 
 // DocumentCommercial is commonly known as a fiscal receipt.

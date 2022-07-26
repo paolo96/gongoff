@@ -64,7 +64,8 @@ func TestDocumentManagement(t *testing.T) {
 
 func TestDocumentCommercialReturn(t *testing.T) {
 
-	commandOpenDocumentCommercialReturn := NewCommandOpenDocumentCommercialReturn(1, 2, time.Now(), nil)
+	documentId := NewDocumentId(1, 2, time.Now(), nil)
+	commandOpenDocumentCommercialReturn := NewCommandOpenDocumentCommercialReturn(*documentId)
 	documentCommercialReturn := NewDocumentCommercialReturn(*commandOpenDocumentCommercialReturn, nil, nil)
 	commands := documentCommercialReturn.get()
 	if len(commands) != 1 {

@@ -2,10 +2,8 @@ package gongoff
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
-	"time"
 )
 
 // Command anatomy:
@@ -227,46 +225,18 @@ func NewCommandBarcode(barcode string) (*CommandBarcode, error) {
 
 type CommandOpenDocumentCommercialReturn struct {
 	CommandGeneric
-	dailyClosureNumber  int
-	documentNumber      int
-	documentDate        time.Time
-	printerSerialNumber *string
+	documentId DocumentId
 }
 
 // NewCommandOpenDocumentCommercialReturn opens a commercial return document.
-// Ex. (1, 2, date[01/01/2000], "1234567890123") -> "0001-0002-01-01-00-1234567890123"104M -> Open document 0001-0002-01-01-00 done with printer 1234567890123 for return.
-func NewCommandOpenDocumentCommercialReturn(
-	dailyClosureNumber int,
-	documentNumber int,
-	documentDate time.Time,
-	printerSerialNumber *string) *CommandOpenDocumentCommercialReturn {
-
-	dailyClosureNumberString := "9999"
-	if dailyClosureNumber > 0 && dailyClosureNumber < 10000 {
-		dailyClosureNumberString = fmt.Sprintf("%04d", dailyClosureNumber)
-	}
-	documentNumberString := "9999"
-	if documentNumber > 0 && documentNumber < 10000 {
-		documentNumberString = fmt.Sprintf("%04d", documentNumber)
-	}
-	documentDateString := "30-01-20"
-	if documentDate.Year() > 0 {
-		documentDateString = documentDate.Format("02-01-06")
-	}
-	printerSerialNumberString := ""
-	if printerSerialNumber != nil {
-		printerSerialNumberString = "-" + *printerSerialNumber
-	}
-	documentIdentifier := dailyClosureNumberString + "-" + documentNumberString + "-" + documentDateString + printerSerialNumberString
+// Ex. (DocumentId[1, 2, date[01/01/2000], "1234567890123"]) -> "0001-0002-01-01-00-1234567890123"104M -> Open document 0001-0002-01-01-00 done with printer 1234567890123 for return.
+func NewCommandOpenDocumentCommercialReturn(id DocumentId) *CommandOpenDocumentCommercialReturn {
 
 	commandOpenDocumentCommercialReturn := &CommandOpenDocumentCommercialReturn{
-		dailyClosureNumber:  dailyClosureNumber,
-		documentNumber:      documentNumber,
-		documentDate:        documentDate,
-		printerSerialNumber: printerSerialNumber,
+		documentId: id,
 	}
 	commandOpenDocumentCommercialReturn.data = []Data{
-		{variable: documentIdentifier, separator: SeparatorTypeDescription},
+		{variable: string(id), separator: SeparatorTypeDescription},
 	}
 	commandOpenDocumentCommercialReturn.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenReturnDocumentCommercial}
 	return commandOpenDocumentCommercialReturn
