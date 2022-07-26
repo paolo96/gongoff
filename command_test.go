@@ -3,6 +3,7 @@ package gongoff
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 // TestCommandProduct tests the creation of a CommandProduct command.
@@ -144,4 +145,18 @@ func TestCommandBarcode(t *testing.T) {
 	}
 
 	fmt.Println("Completed testCommandBarcode")
+}
+
+func TestCommandOpenDocumentCommercialReturn(t *testing.T) {
+	testDate := time.Date(2018, time.January, 1, 0, 0, 0, 0, time.UTC)
+	commandOpenDocumentCommercialReturn := NewCommandOpenDocumentCommercialReturn(12, 23, testDate, nil)
+	command, err := commandOpenDocumentCommercialReturn.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "\"0012-0023-01-01-18\"104M" {
+		t.Errorf("Expected \"0012-0023-01-01-18\"104M, got %s", command)
+	}
+
+	fmt.Println("Completed testCommandOpenDocumentCommercialReturn")
 }

@@ -89,3 +89,7 @@ func NewDocumentManagement(rows []string) *DocumentManagement {
 	}
 
 }
+
+type DocumentCommercialReturn struct {
+	DocumentGeneric
+}
