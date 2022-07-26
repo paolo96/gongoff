@@ -124,3 +124,24 @@ func TestCommandDiscountAmount(t *testing.T) {
 
 	fmt.Println("Completed testCommandDiscountAmount")
 }
+
+func TestCommandBarcode(t *testing.T) {
+	commandBarcode, err := NewCommandBarcode("1234567890123")
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	command, err := commandBarcode.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "\"1234567890123\"1Z" {
+		t.Errorf("Expected \"1234567890123\"1Z, got %s", command)
+	}
+
+	_, err = NewCommandBarcode("test")
+	if err == nil {
+		t.Errorf("Expected error != nil, got nil")
+	}
+
+	fmt.Println("Completed testCommandBarcode")
+}

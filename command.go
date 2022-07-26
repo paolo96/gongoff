@@ -197,3 +197,28 @@ func NewCommandDiscountAmount(discountAmount int) *CommandDiscountAmount {
 	commandDiscountAmount.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDiscountValueTransaction}
 	return commandDiscountAmount
 }
+
+type CommandBarcode struct {
+	CommandGeneric
+	barcode string
+}
+
+// NewCommandBarcode prints a barcode (EAN13, EAN8).
+// Ex. ("1234567890123") -> "1234567890123"@39F -> Barcode is "1234567890123"
+// Barcode is a 13- or 8-character string.
+func NewCommandBarcode(barcode string) (*CommandBarcode, error) {
+	commandBarcode := &CommandBarcode{
+		barcode: barcode,
+	}
+	commandBarcode.data = []Data{
+		{variable: barcode, separator: SeparatorTypeDescription},
+	}
+	if len(barcode) == 13 {
+		commandBarcode.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintBarcodeEAN13}
+	} else if len(barcode) == 8 {
+		commandBarcode.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintBarcodeEAN8}
+	} else {
+		return nil, errors.New("barcode must be 13 or 8 characters long")
+	}
+	return commandBarcode, nil
+}
