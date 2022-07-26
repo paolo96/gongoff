@@ -11,7 +11,8 @@ import (
 type Printer interface {
 	Open() error
 	IsOpen() bool
-	Print([]Command) error
+	PrintDocument(Document) error
+	PrintCommands([]Command) error
 	Close() error
 
 	flush() error
@@ -29,7 +30,13 @@ func (p *GenericPrinter) flush() error {
 	return p.dst.Flush()
 }
 
-func (p *GenericPrinter) Print(commands []Command) error {
+func (p *GenericPrinter) PrintDocument(doc Document) error {
+	return p.PrintCommands(doc.get())
+}
+
+// PrintCommands prints the given commands to the printer.
+// It allows for more flexibility than PrintDocument
+func (p *GenericPrinter) PrintCommands(commands []Command) error {
 	for _, command := range commands {
 		commandString, err := command.get()
 		if err != nil {
