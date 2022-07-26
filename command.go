@@ -176,3 +176,20 @@ func NewCommandDiscountPercentage(discountPercentage float64) *CommandDiscountPe
 	commandDiscountPercentage.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDiscountPercentTransaction}
 	return commandDiscountPercentage
 }
+
+type CommandDiscountAmount struct {
+	CommandGeneric
+	discountAmount int
+}
+
+// NewCommandDiscountAmount adds a fixed value discount to the receipt.
+// Ex. (1000) -> 10003M -> 10.00€ discount on whole transaction.
+func NewCommandDiscountAmount(discountAmount int) *CommandDiscountAmount {
+	commandDiscountAmount := &CommandDiscountAmount{
+		discountAmount: discountAmount,
+	}
+	commandDiscountAmount.data = []Data{}
+	commandDiscountAmount.data = append(commandDiscountAmount.data, Data{variable: strconv.Itoa(discountAmount), separator: SeparatorTypeValue})
+	commandDiscountAmount.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDiscountValueTransaction}
+	return commandDiscountAmount
+}

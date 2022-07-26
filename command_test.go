@@ -111,3 +111,16 @@ func TestCommandDiscountPercentage(t *testing.T) {
 
 	fmt.Println("Completed testCommandDiscountPercentage")
 }
+
+func TestCommandDiscountAmount(t *testing.T) {
+	commandDiscountAmount := NewCommandDiscountAmount(1126)
+	command, err := commandDiscountAmount.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "1126H3M" {
+		t.Errorf("Expected 1126H3M, got %s", command)
+	}
+
+	fmt.Println("Completed testCommandDiscountAmount")
+}
