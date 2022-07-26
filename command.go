@@ -94,7 +94,6 @@ func NewCommandTrailer(trailer string) *CommandTrailer {
 	commandTrailer := &CommandTrailer{
 		trailer: trailer,
 	}
-	commandTrailer.data = []Data{}
 
 	paddedTrailer := trailer
 	if len(trailer) < 39 {
@@ -102,7 +101,9 @@ func NewCommandTrailer(trailer string) *CommandTrailer {
 	} else if len(trailer) > 46 {
 		paddedTrailer = trailer[:46]
 	}
-	commandTrailer.data = append(commandTrailer.data, Data{variable: paddedTrailer, separator: SeparatorTypeDescription})
+	commandTrailer.data = []Data{
+		{variable: paddedTrailer, separator: SeparatorTypeDescription},
+	}
 	commandTrailer.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintCourtesyMessage}
 	return commandTrailer
 }
@@ -154,8 +155,9 @@ func NewCommandCustomerIdentifier(customerIdentifier string) (*CommandCustomerId
 	commandCustomerIdentifier := &CommandCustomerIdentifier{
 		customerIdentifier: customerIdentifier,
 	}
-	commandCustomerIdentifier.data = []Data{}
-	commandCustomerIdentifier.data = append(commandCustomerIdentifier.data, Data{variable: customerIdentifier, separator: SeparatorTypeDescription})
+	commandCustomerIdentifier.data = []Data{
+		{variable: customerIdentifier, separator: SeparatorTypeDescription},
+	}
 	commandCustomerIdentifier.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintCustomerIdentifier}
 	return commandCustomerIdentifier, nil
 }
@@ -171,8 +173,9 @@ func NewCommandDiscountPercentage(discountPercentage float64) *CommandDiscountPe
 	commandDiscountPercentage := &CommandDiscountPercentage{
 		discountPercentage: discountPercentage,
 	}
-	commandDiscountPercentage.data = []Data{}
-	commandDiscountPercentage.data = append(commandDiscountPercentage.data, Data{variable: strconv.FormatFloat(discountPercentage, 'f', 2, 64), separator: SeparatorTypeDecimal})
+	commandDiscountPercentage.data = []Data{
+		{variable: strconv.FormatFloat(discountPercentage, 'f', 2, 64), separator: SeparatorTypeDecimal},
+	}
 	commandDiscountPercentage.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDiscountPercentTransaction}
 	return commandDiscountPercentage
 }
@@ -188,8 +191,9 @@ func NewCommandDiscountAmount(discountAmount int) *CommandDiscountAmount {
 	commandDiscountAmount := &CommandDiscountAmount{
 		discountAmount: discountAmount,
 	}
-	commandDiscountAmount.data = []Data{}
-	commandDiscountAmount.data = append(commandDiscountAmount.data, Data{variable: strconv.Itoa(discountAmount), separator: SeparatorTypeValue})
+	commandDiscountAmount.data = []Data{
+		{variable: strconv.Itoa(discountAmount), separator: SeparatorTypeValue},
+	}
 	commandDiscountAmount.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDiscountValueTransaction}
 	return commandDiscountAmount
 }
