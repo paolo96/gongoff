@@ -3,6 +3,7 @@ package gongoff
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 func TestDocumentCommercial(t *testing.T) {
@@ -57,6 +58,18 @@ func TestDocumentManagement(t *testing.T) {
 	if closeCommand != "J" {
 		t.Errorf("Expected J, got %s", closeCommand)
 	}
-	
+
 	fmt.Println("Completed testDocumentManagement")
+}
+
+func TestDocumentCommercialReturn(t *testing.T) {
+
+	commandOpenDocumentCommercialReturn := NewCommandOpenDocumentCommercialReturn(1, 2, time.Now(), nil)
+	documentCommercialReturn := NewDocumentCommercialReturn(*commandOpenDocumentCommercialReturn, nil, nil)
+	commands := documentCommercialReturn.get()
+	if len(commands) != 1 {
+		t.Errorf("Expected 1 commands, got %d", len(commands))
+	}
+
+	fmt.Println("Completed testDocumentCommercialReturn")
 }

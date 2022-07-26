@@ -90,6 +90,29 @@ func NewDocumentManagement(rows []string) *DocumentManagement {
 
 }
 
+// DocumentCommercialReturn is used when a customer returns a product.
+// If no product is given, the whole content of the document is considered returned.
 type DocumentCommercialReturn struct {
 	DocumentGeneric
+}
+
+func NewDocumentCommercialReturn(
+	commandOpenCommercialReturn CommandOpenDocumentCommercialReturn,
+	commandProduct *CommandProduct,
+	commandPayment *CommandPayment) *DocumentCommercialReturn {
+
+	commands := []Command{
+		&commandOpenCommercialReturn,
+	}
+	if commandProduct != nil {
+		commands = append(commands, commandProduct)
+	}
+	if commandPayment != nil {
+		commands = append(commands, commandPayment)
+	}
+	return &DocumentCommercialReturn{
+		DocumentGeneric: DocumentGeneric{
+			commands: commands,
+		},
+	}
 }
