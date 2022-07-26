@@ -33,3 +33,30 @@ func TestDocumentCommercial(t *testing.T) {
 
 	fmt.Println("Completed testDocumentCommercial")
 }
+
+func TestDocumentManagement(t *testing.T) {
+
+	managementDoc := NewDocumentManagement([]string{"test", "test2", "test3"})
+	commands := managementDoc.get()
+	if len(commands) != 5 {
+		t.Errorf("Expected 5 commands, got %d", len(commands))
+	}
+
+	openCommand, err := commands[0].get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if openCommand != "j" {
+		t.Errorf("Expected j, got %s", openCommand)
+	}
+
+	closeCommand, err := commands[4].get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if closeCommand != "J" {
+		t.Errorf("Expected J, got %s", closeCommand)
+	}
+	
+	fmt.Println("Completed testDocumentManagement")
+}

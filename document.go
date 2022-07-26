@@ -50,3 +50,42 @@ func NewDocumentCommercial(
 		},
 	}
 }
+
+// DocumentManagement is a generic document useful for testing purposes and generic text print.
+type DocumentManagement struct {
+	DocumentGeneric
+	rows []string
+}
+
+func NewDocumentManagement(rows []string) *DocumentManagement {
+
+	var commands []Command
+	commands = append(commands, &CommandGeneric{
+		data:       []Data{},
+		terminator: Terminator{nil, TerminatorTypeOpenManagementDocument},
+	})
+	for _, row := range rows {
+		if len(row) > 46 {
+			row = row[:46]
+		}
+		commands = append(commands, &CommandGeneric{
+			data: []Data{
+				{variable: row, separator: SeparatorTypeDescription},
+			},
+			terminator: Terminator{
+				variable:       nil,
+				terminatorType: TerminatorTypeAdditionalDescription,
+			},
+		})
+	}
+	commands = append(commands, &CommandGeneric{
+		data:       []Data{},
+		terminator: Terminator{nil, TerminatorTypeCloseManagementDocument},
+	})
+	return &DocumentManagement{
+		DocumentGeneric: DocumentGeneric{
+			commands: commands,
+		},
+	}
+
+}
