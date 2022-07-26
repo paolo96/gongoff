@@ -47,6 +47,11 @@ type CommandProduct struct {
 // Ex. ("BREAD", 750, 2, 3) -> "BREAD"2*750H3R -> Sold 2 loaves of bread for 7,50€ each in department 3.
 func NewCommandProduct(product *string, unitPrice int, quantity *int, department *int) *CommandProduct {
 
+	if product != nil && len(*product) > 38 {
+		productDesc := (*product)[:38]
+		product = &productDesc
+	}
+
 	commandProduct := &CommandProduct{
 		product:    product,
 		unitPrice:  unitPrice,
@@ -82,10 +87,10 @@ type CommandTrailer struct {
 	trailer string
 }
 
-// NewCommandMessage prints a line with the given message.
+// NewCommandTrailer prints a line with the given message.
 // Ex. ("TRAILER") -> "TRAILER"@40F -> "TRAILER                                "
 // Width forced between 39 and 46 characters.
-func NewCommandMessage(trailer string) *CommandTrailer {
+func NewCommandTrailer(trailer string) *CommandTrailer {
 	commandTrailer := &CommandTrailer{
 		trailer: trailer,
 	}
@@ -153,4 +158,21 @@ func NewCommandCustomerIdentifier(customerIdentifier string) (*CommandCustomerId
 	commandCustomerIdentifier.data = append(commandCustomerIdentifier.data, Data{variable: customerIdentifier, separator: SeparatorTypeDescription})
 	commandCustomerIdentifier.terminator = Terminator{variable: nil, terminatorType: TerminatorTypePrintCustomerIdentifier}
 	return commandCustomerIdentifier, nil
+}
+
+type CommandDiscountPercentage struct {
+	CommandGeneric
+	discountPercentage float64
+}
+
+// NewCommandDiscountPercentage adds a discount percentage to the receipt.
+// Ex. (10) -> 10.001M -> 10% discount on whole transaction.
+func NewCommandDiscountPercentage(discountPercentage float64) *CommandDiscountPercentage {
+	commandDiscountPercentage := &CommandDiscountPercentage{
+		discountPercentage: discountPercentage,
+	}
+	commandDiscountPercentage.data = []Data{}
+	commandDiscountPercentage.data = append(commandDiscountPercentage.data, Data{variable: strconv.FormatFloat(discountPercentage, 'f', 2, 64), separator: SeparatorTypeDecimal})
+	commandDiscountPercentage.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDiscountPercentTransaction}
+	return commandDiscountPercentage
 }

@@ -3,6 +3,7 @@ package gongoff
 import (
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type dataPiece interface {
@@ -16,12 +17,17 @@ type Data struct {
 
 func (d *Data) get() (string, error) {
 	switch d.separator {
-	case SeparatorTypeValue, SeparatorTypeDecimal, SeparatorTypeMultiply:
+	case SeparatorTypeValue, SeparatorTypeMultiply:
 		_, err := strconv.Atoi(d.variable)
 		if err != nil {
 			return "", err
 		}
 		return d.variable + string(d.separator), nil
+	case SeparatorTypeDecimal:
+		if !strings.Contains(d.variable, ".") {
+			return "", fmt.Errorf("decimal variable must contain '.'")
+		}
+		return d.variable, nil
 	case SeparatorTypeDescription:
 		return string(d.separator) + d.variable + string(d.separator), nil
 	case SeparatorTypeDescriptionDoubleHeight:

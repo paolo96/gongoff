@@ -31,9 +31,9 @@ func TestCommandProduct(t *testing.T) {
 	fmt.Println("Completed testCommandProduct")
 }
 
-// TestCommandMessage tests the creation of a CommandMessage command.
-func TestCommandMessage(t *testing.T) {
-	commandMessage := NewCommandMessage("Hello World!")
+// TestCommandTrailer tests the creation of a CommandMessage command.
+func TestCommandTrailer(t *testing.T) {
+	commandMessage := NewCommandTrailer("Hello World!")
 	command, err := commandMessage.get()
 	if err != nil {
 		panic(err)
@@ -42,7 +42,7 @@ func TestCommandMessage(t *testing.T) {
 		t.Errorf("Expected \"Hello World!                           \"@40F, got %s", command)
 	}
 
-	commandMessageLong := NewCommandMessage("Hello World!                             truncate this")
+	commandMessageLong := NewCommandTrailer("Hello World!                             truncate this")
 	command, err = commandMessageLong.get()
 	if err != nil {
 		panic(err)
@@ -78,7 +78,7 @@ func TestCommandPayment(t *testing.T) {
 	fmt.Println("Completed testCommandPayment")
 }
 
-func TestNewCommandCustomerIdentifier(t *testing.T) {
+func TestCommandCustomerIdentifier(t *testing.T) {
 	commandCustomerIdentifier, err := NewCommandCustomerIdentifier("RSSMRA00A01F205F")
 	if err != nil {
 		t.Errorf("Expected error = nil, got %s", err)
@@ -97,4 +97,17 @@ func TestNewCommandCustomerIdentifier(t *testing.T) {
 	}
 
 	fmt.Println("Completed testNewCommandCustomerIdentifier")
+}
+
+func TestCommandDiscountPercentage(t *testing.T) {
+	commandDiscountPercentage := NewCommandDiscountPercentage(50.12)
+	command, err := commandDiscountPercentage.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "50.121M" {
+		t.Errorf("Expected 50.121M, got %s", command)
+	}
+
+	fmt.Println("Completed testCommandDiscountPercentage")
 }
