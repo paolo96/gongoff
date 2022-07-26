@@ -74,3 +74,16 @@ func TestDocumentCommercialReturn(t *testing.T) {
 
 	fmt.Println("Completed testDocumentCommercialReturn")
 }
+
+func TestDocumentCommercialCancellation(t *testing.T) {
+
+	documentId := NewDocumentId(1, 2, time.Now(), nil)
+	commandOpenDocumentCommercialCancellation := NewCommandOpenDocumentCommercialCancellation(*documentId)
+	documentCommercialCancellation := NewDocumentCommercialCancellation(*commandOpenDocumentCommercialCancellation)
+	commands := documentCommercialCancellation.get()
+	if len(commands) != 1 {
+		t.Errorf("Expected 1 commands, got %d", len(commands))
+	}
+
+	fmt.Println("Completed testDocumentCommercialCancellation")
+}

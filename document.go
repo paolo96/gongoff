@@ -127,12 +127,12 @@ type DocumentCommercialReturn struct {
 }
 
 func NewDocumentCommercialReturn(
-	commandOpenCommercialReturn CommandOpenDocumentCommercialReturn,
+	commandOpen CommandOpenDocumentCommercialReturn,
 	commandProduct *CommandProduct,
 	commandPayment *CommandPayment) *DocumentCommercialReturn {
 
 	commands := []Command{
-		&commandOpenCommercialReturn,
+		&commandOpen,
 	}
 	if commandProduct != nil {
 		commands = append(commands, commandProduct)
@@ -143,6 +143,21 @@ func NewDocumentCommercialReturn(
 	return &DocumentCommercialReturn{
 		DocumentGeneric: DocumentGeneric{
 			commands: commands,
+		},
+	}
+}
+
+// DocumentCommercialCancellation is used when a fiscal receipt is cancelled.
+type DocumentCommercialCancellation struct {
+	DocumentGeneric
+}
+
+func NewDocumentCommercialCancellation(cancellation CommandOpenDocumentCommercialCancellation) *DocumentCommercialCancellation {
+	return &DocumentCommercialCancellation{
+		DocumentGeneric: DocumentGeneric{
+			commands: []Command{
+				&cancellation,
+			},
 		},
 	}
 }

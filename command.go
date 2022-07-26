@@ -241,3 +241,22 @@ func NewCommandOpenDocumentCommercialReturn(id DocumentId) *CommandOpenDocumentC
 	commandOpenDocumentCommercialReturn.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenReturnDocumentCommercial}
 	return commandOpenDocumentCommercialReturn
 }
+
+type CommandOpenDocumentCommercialCancellation struct {
+	CommandGeneric
+	documentId DocumentId
+}
+
+// NewCommandOpenDocumentCommercialCancellation opens a commercial cancellation document.
+// Ex. (DocumentId[1, 2, date[01/01/2000], "1234567890123"]) -> "0001-0002-01-01-00-1234567890123"104M -> Open document 0001-0002-01-01-00 done with printer 1234567890123 for cancellation.
+func NewCommandOpenDocumentCommercialCancellation(id DocumentId) *CommandOpenDocumentCommercialCancellation {
+
+	commandOpenDocumentCommercialCancellation := &CommandOpenDocumentCommercialCancellation{
+		documentId: id,
+	}
+	commandOpenDocumentCommercialCancellation.data = []Data{
+		{variable: string(id), separator: SeparatorTypeDescription},
+	}
+	commandOpenDocumentCommercialCancellation.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenCancellationDocumentCommercial}
+	return commandOpenDocumentCommercialCancellation
+}
