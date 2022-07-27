@@ -1,6 +1,7 @@
 package gongoff
 
 import (
+	"errors"
 	"fmt"
 	"time"
 )
@@ -232,4 +233,39 @@ func NewDocumentPOSCancellation(
 
 type DocumentInvoice struct {
 	DocumentGeneric
+}
+
+func NewDocumentInvoice(
+	commandOpen CommandOpenInvoice,
+	customerDetails []CommandInvoiceDetails,
+	products []CommandProduct,
+	payments []CommandPayment) (*DocumentInvoice, error) {
+
+	if len(customerDetails) == 0 || len(customerDetails) > 5 {
+		return nil, errors.New("invalid number of customer details commands, must be between 1 and 5")
+	}
+	if len(products) == 0 {
+		return nil, errors.New("invalid number of products commands, must be at least 1")
+	}
+	if len(payments) == 0 {
+		return nil, errors.New("invalid number of payments commands, must be at least 1")
+	}
+
+	var commands []Command
+	for _, customerDetail := range customerDetails {
+		commands = append(commands, &customerDetail)
+	}
+	commands = append(commands, &commandOpen)
+	for _, product := range products {
+		commands = append(commands, &product)
+	}
+	for _, payment := range payments {
+		commands = append(commands, &payment)
+	}
+
+	return &DocumentInvoice{
+		DocumentGeneric: DocumentGeneric{
+			commands: commands,
+		},
+	}, nil
 }

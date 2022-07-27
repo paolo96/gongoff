@@ -111,3 +111,33 @@ func TestDocumentPOSCancellation(t *testing.T) {
 
 	fmt.Println("Completed testDocumentPOSCancellation")
 }
+
+func TestDocumentInvoice(t *testing.T) {
+
+	invId := 3
+	commandOpenDocumentInvoice := NewCommandOpenInvoice(&invId)
+	commandCustomerDetails := NewCommandInvoiceDetails("test")
+	commandPayment, err := NewCommandPayment(TerminatorTypePaymentCash, nil, nil)
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	documentInvoice, err := NewDocumentInvoice(
+		*commandOpenDocumentInvoice,
+		[]CommandInvoiceDetails{*commandCustomerDetails},
+		[]CommandProduct{
+			*NewCommandProduct(750, nil, nil, nil),
+		},
+		[]CommandPayment{
+			*commandPayment,
+		},
+	)
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	commands := documentInvoice.get()
+	if len(commands) != 4 {
+		t.Errorf("Expected 4 commands, got %d", len(commands))
+	}
+
+	fmt.Println("Completed testDocumentInvoice")
+}
