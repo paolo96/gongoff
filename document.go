@@ -17,8 +17,10 @@ func (d *DocumentGeneric) get() []Command {
 	return d.commands
 }
 
+// DocumentId is the unique document identifier, optionally with the serial number of the printer which generated the document.
 type DocumentId string
 
+// NewDocumentId creates a new document identifier.
 func NewDocumentId(dailyClosureNumber int, documentNumber int, documentDate time.Time, printerSerialNumber *string) *DocumentId {
 
 	dailyClosureNumberString := "9999"

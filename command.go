@@ -267,6 +267,8 @@ type CommandOpenDocumentPOSReturn struct {
 	date time.Time
 }
 
+// NewCommandOpenDocumentPOSReturn opens a POS return document.
+// Ex. (date[01/01/2000]) -> "01-01-00/POS"106M -> Open document done with printer for return.
 func NewCommandOpenDocumentPOSReturn(date time.Time) *CommandOpenDocumentPOSReturn {
 	commandOpenDocumentPOSReturn := &CommandOpenDocumentPOSReturn{
 		date: date,
@@ -283,6 +285,8 @@ type CommandOpenDocumentPOSCancellation struct {
 	date time.Time
 }
 
+// NewCommandOpenDocumentPOSCancellation opens a POS cancellation document.
+// Ex. (date[01/01/2000]) -> "01-01-00/POS"107M -> Open document done with printer for cancellation.
 func NewCommandOpenDocumentPOSCancellation(date time.Time) *CommandOpenDocumentPOSCancellation {
 	commandOpenDocumentPOSCancellation := &CommandOpenDocumentPOSCancellation{
 		date: date,
