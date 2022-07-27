@@ -229,3 +229,7 @@ func NewDocumentPOSCancellation(
 		},
 	}
 }
+
+type DocumentInvoice struct {
+	DocumentGeneric
+}

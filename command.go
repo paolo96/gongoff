@@ -297,3 +297,51 @@ func NewCommandOpenDocumentPOSCancellation(date time.Time) *CommandOpenDocumentP
 	commandOpenDocumentPOSCancellation.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeOpenCancellationDocumentPOS}
 	return commandOpenDocumentPOSCancellation
 }
+
+type CommandOpenInvoice struct {
+	CommandGeneric
+	invoiceNumber *int
+}
+
+// NewCommandOpenInvoice opens an invoice document.
+// Ex. (1) -> "00001"101M -> Open invoice n. 00001.
+// If invoiceNumber is nil the numeration is delegated to the printer
+func NewCommandOpenInvoice(invoiceNumber *int) *CommandOpenInvoice {
+	commandOpenInvoice := &CommandOpenInvoice{
+		invoiceNumber: invoiceNumber,
+	}
+	invNumString := "00000"
+	if invoiceNumber != nil && *invoiceNumber > 0 && *invoiceNumber < 100000 {
+		prefixedNum := strconv.Itoa(*invoiceNumber)
+		invNumString = strings.Repeat("0", 5-len(prefixedNum)) + prefixedNum
+	}
+	commandOpenInvoice.data = []Data{
+		{variable: invNumString, separator: SeparatorTypeDescription},
+	}
+	commandOpenInvoice.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeDirectInvoice}
+	return commandOpenInvoice
+}
+
+type CommandInvoiceDetails struct {
+	CommandGeneric
+	details string
+}
+
+// NewCommandInvoiceDetails prints the customer invoice details.
+// Ex. ("Mario Rossi") -> "Mario Rossi                             "@38F -> Print invoice details.
+// At least 40 characters are required. Max 46 characters.
+func NewCommandInvoiceDetails(details string) *CommandInvoiceDetails {
+	if len(details) < 40 {
+		details = details + strings.Repeat(" ", 40-len(details))
+	} else if len(details) > 46 {
+		details = details[:46]
+	}
+	commandInvoiceDetails := &CommandInvoiceDetails{
+		details: details,
+	}
+	commandInvoiceDetails.data = []Data{
+		{variable: details, separator: SeparatorTypeDescription},
+	}
+	commandInvoiceDetails.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeInvoiceCustomerDetails}
+	return commandInvoiceDetails
+}
