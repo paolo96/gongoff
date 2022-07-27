@@ -87,3 +87,27 @@ func TestDocumentCommercialCancellation(t *testing.T) {
 
 	fmt.Println("Completed testDocumentCommercialCancellation")
 }
+
+func TestDocumentPOSReturn(t *testing.T) {
+
+	commandOpenDocumentPOSReturn := NewCommandOpenDocumentPOSReturn(time.Now())
+	documentPOSReturn := NewDocumentPOSReturn(*commandOpenDocumentPOSReturn, nil, nil)
+	commands := documentPOSReturn.get()
+	if len(commands) != 1 {
+		t.Errorf("Expected 1 commands, got %d", len(commands))
+	}
+
+	fmt.Println("Completed testDocumentPOSReturn")
+}
+
+func TestDocumentPOSCancellation(t *testing.T) {
+
+	commandOpenDocumentPOSCancellation := NewCommandOpenDocumentPOSCancellation(time.Now())
+	documentPOSCancellation := NewDocumentPOSCancellation(*commandOpenDocumentPOSCancellation, nil, nil)
+	commands := documentPOSCancellation.get()
+	if len(commands) != 1 {
+		t.Errorf("Expected 1 commands, got %d", len(commands))
+	}
+
+	fmt.Println("Completed testDocumentPOSCancellation")
+}
