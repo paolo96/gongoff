@@ -231,6 +231,7 @@ func NewDocumentPOSCancellation(
 	}
 }
 
+// DocumentInvoice is a direct invoice document.
 type DocumentInvoice struct {
 	DocumentGeneric
 }
@@ -268,4 +269,28 @@ func NewDocumentInvoice(
 			commands: commands,
 		},
 	}, nil
+}
+
+type DocumentCommercialWithInvoice struct {
+	DocumentGeneric
+	commercialDocument DocumentCommercial
+}
+
+func NewDocumentCommercialWithInvoice(
+	commandOpen CommandOpenInvoiceCommercialDocument,
+	customerDetails []CommandInvoiceDetails,
+	commercialDocument DocumentCommercial) *DocumentCommercialWithInvoice {
+
+	var commands []Command
+	for _, customerDetail := range customerDetails {
+		commands = append(commands, &customerDetail)
+	}
+	commands = append(commands, &commandOpen)
+
+	return &DocumentCommercialWithInvoice{
+		DocumentGeneric: DocumentGeneric{
+			commands: commands,
+		},
+		commercialDocument: commercialDocument,
+	}
 }

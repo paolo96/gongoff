@@ -322,6 +322,30 @@ func NewCommandOpenInvoice(invoiceNumber *int) *CommandOpenInvoice {
 	return commandOpenInvoice
 }
 
+type CommandOpenInvoiceCommercialDocument struct {
+	CommandGeneric
+	invoiceNumber *int
+}
+
+// NewCommandOpenInvoiceCommercialDocument opens an invoice document that follows a DocumentCommercial.
+// Ex. (1) -> "00001"111M -> Open invoice n. 00001.
+// If invoiceNumber is nil the numeration is delegated to the printer
+func NewCommandOpenInvoiceCommercialDocument(invoiceNumber *int) *CommandOpenInvoiceCommercialDocument {
+	commandOpenInvoice := &CommandOpenInvoiceCommercialDocument{
+		invoiceNumber: invoiceNumber,
+	}
+	invNumString := "00000"
+	if invoiceNumber != nil && *invoiceNumber > 0 && *invoiceNumber < 100000 {
+		prefixedNum := strconv.Itoa(*invoiceNumber)
+		invNumString = strings.Repeat("0", 5-len(prefixedNum)) + prefixedNum
+	}
+	commandOpenInvoice.data = []Data{
+		{variable: invNumString, separator: SeparatorTypeDescription},
+	}
+	commandOpenInvoice.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeInvoiceCommercialDocument}
+	return commandOpenInvoice
+}
+
 type CommandInvoiceDetails struct {
 	CommandGeneric
 	details string

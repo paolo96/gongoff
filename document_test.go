@@ -141,3 +141,42 @@ func TestDocumentInvoice(t *testing.T) {
 
 	fmt.Println("Completed testDocumentInvoice")
 }
+
+func TestDocumentCommercialWithInvoice(t *testing.T) {
+
+	commandPayment, err := NewCommandPayment(TerminatorTypePaymentCash, nil, nil)
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	documentCommercial := NewDocumentCommercial(
+		[]CommandProduct{
+			*NewCommandProduct(750, nil, nil, nil),
+		},
+		[]CommandPayment{
+			*commandPayment,
+		},
+		nil,
+		nil,
+		nil,
+		nil,
+	)
+	commDoc := 3
+	commandOpenDocumentInvoice := NewCommandOpenInvoiceCommercialDocument(&commDoc)
+	commandCustomerDetails := NewCommandInvoiceDetails("test")
+
+	NewDocumentCommercialWithInvoice(
+		*commandOpenDocumentInvoice,
+		[]CommandInvoiceDetails{*commandCustomerDetails},
+		*documentCommercial,
+	)
+
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	commands := documentCommercial.get()
+	if len(commands) != 3 {
+		t.Errorf("Expected 3 commands, got %d", len(commands))
+	}
+
+	fmt.Println("Completed testDocumentCommercialWithInvoice")
+}

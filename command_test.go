@@ -186,6 +186,30 @@ func TestCommandOpenInvoice(t *testing.T) {
 	fmt.Println("Completed testCommandOpenInvoice")
 }
 
+func TestCommandOpenInvoiceCommercialDocument(t *testing.T) {
+
+	invNum := 123
+	commandOpenInvoice := NewCommandOpenInvoiceCommercialDocument(&invNum)
+	command, err := commandOpenInvoice.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "\"00123\"111M" {
+		t.Errorf("Expected \"00123\"111M, got %s", command)
+	}
+
+	commandOpenInvoiceZero := NewCommandOpenInvoiceCommercialDocument(nil)
+	commandZero, err := commandOpenInvoiceZero.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if commandZero != "\"00000\"111M" {
+		t.Errorf("Expected \"00000\"111M, got %s", command)
+	}
+
+	fmt.Println("Completed testCommandOpenInvoice")
+}
+
 func TestCommandInvoiceDetails(t *testing.T) {
 
 	commandInvoiceDetails := NewCommandInvoiceDetails("Mario Rossi")

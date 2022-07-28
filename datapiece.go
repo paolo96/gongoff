@@ -90,7 +90,7 @@ const (
 	TerminatorTypeOpenCancellationDocumentCommercial     TerminatorType = "105M"
 	TerminatorTypeOpenReturnDocumentPOS                  TerminatorType = "106M"
 	TerminatorTypeOpenCancellationDocumentPOS            TerminatorType = "107M"
-	TerminatorTypeCommercialInvoice                      TerminatorType = "111M"
+	TerminatorTypeInvoiceCommercialDocument              TerminatorType = "111M"
 	TerminatorTypeCancelDocumentOrInvoice                TerminatorType = "k"
 	TerminatorTypeSubtotal                               TerminatorType = "="
 	TerminatorTypePaymentCash                            TerminatorType = "1T"
