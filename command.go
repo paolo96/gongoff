@@ -77,7 +77,8 @@ func NewCommandProduct(unitPrice int, product *string, quantity *int, department
 		departmentString := strconv.Itoa(*department)
 		commandProduct.terminator = Terminator{variable: &departmentString, terminatorType: TerminatorTypeSold}
 	} else {
-		commandProduct.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeSold}
+		defaultDepartment := "1"
+		commandProduct.terminator = Terminator{variable: &defaultDepartment, terminatorType: TerminatorTypeSold}
 	}
 
 	return commandProduct
