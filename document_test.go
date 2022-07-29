@@ -174,7 +174,7 @@ func TestDocumentCommercialWithInvoice(t *testing.T) {
 		t.Errorf("Expected error = nil, got %s", err)
 	}
 	commands := documentCommercial.get()
-	if len(commands) != 3 {
+	if len(commands) != 2 {
 		t.Errorf("Expected 3 commands, got %d", len(commands))
 	}
 
