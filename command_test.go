@@ -223,3 +223,17 @@ func TestCommandInvoiceDetails(t *testing.T) {
 
 	fmt.Println("Completed testCommandInvoiceDetails")
 }
+
+func TestCommandDisplayMessage(t *testing.T) {
+
+	commandDisplayMessage := NewCommandDisplayMessage("Mario Rossi", 1)
+	command, err := commandDisplayMessage.get()
+	if err != nil {
+		t.Errorf("Expected error = nil, got %s", err)
+	}
+	if command != "\"Mario Rossi\"1%" {
+		t.Errorf("Expected \"Mario Rossi\"1%%, got %s", command)
+	}
+
+	fmt.Println("Completed testCommandDisplayMessage")
+}

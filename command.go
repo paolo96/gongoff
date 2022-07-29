@@ -369,3 +369,27 @@ func NewCommandInvoiceDetails(details string) *CommandInvoiceDetails {
 	commandInvoiceDetails.terminator = Terminator{variable: nil, terminatorType: TerminatorTypeInvoiceCustomerDetails}
 	return commandInvoiceDetails
 }
+
+type CommandDisplayMessage struct {
+	CommandGeneric
+	message string
+	line    int
+}
+
+// NewCommandDisplayMessage shows a message on the display.
+// Ex. ("Mario Rossi", 2) -> "Mario Rossi"2% -> Show message "Mario Rossi" on line 2.
+func NewCommandDisplayMessage(message string, line int) *CommandDisplayMessage {
+	commandDisplayMessage := &CommandDisplayMessage{
+		message: message,
+		line:    line,
+	}
+	commandDisplayMessage.data = []Data{
+		{variable: message, separator: SeparatorTypeDescription},
+	}
+	lineTerminator := TerminatorTypeViewDescriptionOnDisplayFirstLine
+	if line > 1 {
+		lineTerminator = TerminatorTypeViewDescriptionOnDisplaySecondLine
+	}
+	commandDisplayMessage.terminator = Terminator{variable: nil, terminatorType: lineTerminator}
+	return commandDisplayMessage
+}
