@@ -110,7 +110,7 @@ if err != nil {
 #### Print financial report with zeroing
 ```go
 // Suppose the printer object is already created and opened.
-// Since there neither is a document nor a command that fits our needs, we generate a generic command with the right terminator.
+// Since there is neither a document nor a command that fits our needs, we generate a generic command with the right terminator.
 var commands []Command
 commands = append(commands, &CommandGeneric{
     data:       []Data{},
