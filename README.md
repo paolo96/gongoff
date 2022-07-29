@@ -101,7 +101,7 @@ commandFirstLine := NewCommandDisplayMessage("First line", 1)
 commandSecondLine := NewCommandDisplayMessage("Second line", 2)
 
 // Print the commands.
-err := printer.PrintCommands([]Command{*commandFirstLine, *commandSecondLine})
+err := printer.PrintCommands([]Command{commandFirstLine, commandSecondLine})
 if err != nil {
     panic(err)
 }
