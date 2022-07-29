@@ -25,8 +25,8 @@ func TestCommandProduct(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	if commandDefaults != "750HR" {
-		t.Errorf("Expected 750HR, got %s", commandDefaults)
+	if commandDefaults != "750H1R" {
+		t.Errorf("Expected 750H1R, got %s", commandDefaults)
 	}
 
 	fmt.Println("Completed testCommandProduct")
