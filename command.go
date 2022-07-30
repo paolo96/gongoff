@@ -19,6 +19,10 @@ type CommandGeneric struct {
 	terminator Terminator
 }
 
+func NewCommandGeneric(data []Data, terminator Terminator) *CommandGeneric {
+	return &CommandGeneric{data, terminator}
+}
+
 func (c *CommandGeneric) get() (string, error) {
 	var command string
 	for _, d := range c.data {

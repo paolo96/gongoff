@@ -93,28 +93,22 @@ type DocumentManagement struct {
 func NewDocumentManagement(rows []string) *DocumentManagement {
 
 	var commands []Command
-	commands = append(commands, &CommandGeneric{
-		data:       []Data{},
-		terminator: Terminator{nil, TerminatorTypeOpenManagementDocument},
-	})
+	commands = append(commands, NewCommandGeneric([]Data{}, Terminator{nil, TerminatorTypeOpenManagementDocument}))
 	for _, row := range rows {
 		if len(row) > 46 {
 			row = row[:46]
 		}
-		commands = append(commands, &CommandGeneric{
-			data: []Data{
+		commands = append(commands, NewCommandGeneric(
+			[]Data{
 				{variable: row, separator: SeparatorTypeDescription},
 			},
-			terminator: Terminator{
+			Terminator{
 				variable:       nil,
 				terminatorType: TerminatorTypeAdditionalDescription,
-			},
-		})
+			}),
+		)
 	}
-	commands = append(commands, &CommandGeneric{
-		data:       []Data{},
-		terminator: Terminator{nil, TerminatorTypeCloseManagementDocument},
-	})
+	commands = append(commands, NewCommandGeneric([]Data{}, Terminator{nil, TerminatorTypeCloseManagementDocument}))
 	return &DocumentManagement{
 		DocumentGeneric: DocumentGeneric{
 			commands: commands,
