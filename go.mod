@@ -1,4 +1,4 @@
-module gongoff
+module github.com/paolo96/gongoff
 
 go 1.18
 
