@@ -114,10 +114,11 @@ if err != nil {
 // Suppose the printer object is already created and opened.
 // Since there is neither a document nor a command that fits our needs, we generate a generic command with the right terminator.
 var commands []gongoff.Command
+terminator := gongoff.NewTerminator(nil, gongoff.TerminatorTypeFinancialReportZeroing)
 commands = append(commands, 
 	gongoff.NewCommandGeneric(
             []gongoff.Data{},
-            gongoff.NewTerminator([]gongoff.Data{}, gongoff.TerminatorTypeFinancialReportZeroing), 
+            *terminator, 
 	),
 )
 
