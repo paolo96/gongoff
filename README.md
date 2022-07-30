@@ -1,4 +1,4 @@
-# GoOn-GoOff
+# GoOn-GoOff [![Go Reference](https://pkg.go.dev/badge/github.com/paolo96/gongoff.svg)](https://pkg.go.dev/github.com/paolo96/gongoff)
 
 GoOn-GoOff (gongoff) is a go implementation of the [Epson Xon-Xoff](https://download.epson-biz.com/modules/pos/index.php?page=single_doc&cid=6735&pcat=51&pid=5811) protocol.
 
