@@ -117,7 +117,7 @@ var commands []gongoff.Command
 commands = append(commands, 
 	gongoff.NewCommandGeneric(
             []gongoff.Data{},
-            gongoff.Terminator{nil, gongoff.TerminatorTypeFinancialReportZeroing}, 
+            gongoff.NewTerminator([]gongoff.Data{}, gongoff.TerminatorTypeFinancialReportZeroing), 
 	),
 )
 
