@@ -52,6 +52,13 @@ type Terminator struct {
 	terminatorType TerminatorType
 }
 
+func NewTerminator(variable *string, terminatorType TerminatorType) *Terminator {
+	return &Terminator{
+		variable:       variable,
+		terminatorType: terminatorType,
+	}
+}
+
 func (t *Terminator) get() (string, error) {
 	if t.variable != nil {
 		return *t.variable + string(t.terminatorType), nil
