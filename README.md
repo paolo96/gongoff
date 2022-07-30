@@ -1,4 +1,4 @@
-# GoOn-GoOff
+# GoOn-GoOff [![Go Reference](https://pkg.go.dev/badge/github.com/paolo96/gongoff.svg)](https://pkg.go.dev/github.com/paolo96/gongoff)
 
 GoOn-GoOff (gongoff) is a go implementation of the [Epson Xon-Xoff](https://download.epson-biz.com/modules/pos/index.php?page=single_doc&cid=6735&pcat=51&pid=5811) protocol.
 
@@ -10,7 +10,9 @@ Supported platforms: Windows, Linux, macOS, Android (only network), iOS (only ne
 
 ## How to use
 
-There are 2 ways to use GoOn-GoOff to control a printer:
+* Create a Printer object and call Open()
+* Create the Documents or Commands objects that fit your needs
+* Use the functions PrintCommands([]Command) or PrintDocument(Document) to execute the commands
 
 ### Documents
 
