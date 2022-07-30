@@ -10,7 +10,9 @@ Supported platforms: Windows, Linux, macOS, Android (only network), iOS (only ne
 
 ## How to use
 
-There are 2 ways to use GoOn-GoOff to control a printer:
+* Create a Printer object and call Open()
+* Create the Documents or Commands objects that fit your needs
+* Use the functions PrintCommands([]Command) or PrintDocument(Document) to execute the commands
 
 ### Documents
 
