@@ -48,7 +48,7 @@ if err != nil {
 defer printer.Close()
 
 // Create a management document.
-doc := NewDocumentManagement([]string{"test", "test2", "test3"})
+doc := gongoff.NewDocumentManagement([]string{"test", "test2", "test3"})
 
 // Print it.
 err = printer.PrintDocument(doc)
@@ -70,16 +70,16 @@ defer printer.Close()
 // Create a receipt document.
 // In this example, the document is a 7,50 euro receipt for a product called "Bread" paid with cash.
 testProduct := "BREAD"
-commandProduct := NewCommandProduct(750, &testProduct, nil, nil)
-commandPayment, err := NewCommandPayment(TerminatorTypePaymentCash, nil, nil)
+commandProduct := gongoff.NewCommandProduct(750, &testProduct, nil, nil)
+commandPayment, err := gongoff.NewCommandPayment(gongoff.TerminatorTypePaymentCash, nil, nil)
 if err != nil {
 	panic(err)
 }
-commercialDoc := NewDocumentCommercial(
-    []CommandProduct{
+commercialDoc := gongoff.NewDocumentCommercial(
+    []gongoff.CommandProduct{
         *commandProduct,
     },
-    []CommandPayment{
+    []gongoff.CommandPayment{
         *commandPayment,
     },
     nil,
@@ -99,11 +99,11 @@ if err != nil {
 ```go
 // Suppose the printer object is already created and opened.
 // Since there is no document that fits our needs, we use an array of commands.
-commandFirstLine := NewCommandDisplayMessage("First line", 1)
-commandSecondLine := NewCommandDisplayMessage("Second line", 2)
+commandFirstLine := gongoff.NewCommandDisplayMessage("First line", 1)
+commandSecondLine := gongoff.NewCommandDisplayMessage("Second line", 2)
 
 // Print the commands.
-err := printer.PrintCommands([]Command{commandFirstLine, commandSecondLine})
+err := printer.PrintCommands([]gongoff.Command{commandFirstLine, commandSecondLine})
 if err != nil {
     panic(err)
 }
