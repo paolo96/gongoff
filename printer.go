@@ -119,6 +119,7 @@ func (p *SerialPrinter) Open() error {
 			if err != nil {
 				return err
 			}
+			p.serialPort = &serialPort
 			p.dst = bufio.NewWriter(serialPort)
 			return nil
 		}
