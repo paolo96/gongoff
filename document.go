@@ -59,8 +59,8 @@ func NewDocumentCommercial(
 	commandTrailer *CommandTrailer) *DocumentCommercial {
 
 	var commands []Command
-	for _, command := range commandsProduct {
-		commands = append(commands, &command)
+	for i := range commandsProduct {
+		commands = append(commands, &commandsProduct[i])
 	}
 	if commandDiscountAmount != nil {
 		commands = append(commands, commandDiscountAmount)
@@ -74,8 +74,8 @@ func NewDocumentCommercial(
 	if commandTrailer != nil {
 		commands = append(commands, commandTrailer)
 	}
-	for _, command := range commandsPayment {
-		commands = append(commands, &command)
+	for i := range commandsPayment {
+		commands = append(commands, &commandsPayment[i])
 	}
 	return &DocumentCommercial{
 		DocumentGeneric: DocumentGeneric{
