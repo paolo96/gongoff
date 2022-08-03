@@ -247,15 +247,15 @@ func NewDocumentInvoice(
 	}
 
 	var commands []Command
-	for _, customerDetail := range customerDetails {
-		commands = append(commands, &customerDetail)
+	for i := range customerDetails {
+		commands = append(commands, &customerDetails[i])
 	}
 	commands = append(commands, &commandOpen)
-	for _, product := range products {
-		commands = append(commands, &product)
+	for i := range products {
+		commands = append(commands, &products[i])
 	}
-	for _, payment := range payments {
-		commands = append(commands, &payment)
+	for i := range payments {
+		commands = append(commands, &payments[i])
 	}
 
 	return &DocumentInvoice{
@@ -276,8 +276,8 @@ func NewDocumentCommercialWithInvoice(
 	commercialDocument DocumentCommercial) *DocumentCommercialWithInvoice {
 
 	var commands []Command
-	for _, customerDetail := range customerDetails {
-		commands = append(commands, &customerDetail)
+	for i := range customerDetails {
+		commands = append(commands, &customerDetails[i])
 	}
 	commands = append(commands, &commandOpen)
 
